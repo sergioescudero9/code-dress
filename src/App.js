@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { Provider } from 'react-redux';
+import { theme } from './theme';
+import Router from './Router';
+import GlobalStyles from './globalStyle';
+import store from './state';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const Context = React.createContext();
+
+function App() {
+  return (
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <div>
+          <GlobalStyles />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Router />
+          </Suspense>
+        </div>
+      </ThemeProvider>
+    </Provider>
+  );
 }
 
-export default App;
+export { App as default, Context };
