@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as actions from '../../state/Home/action';
+import Loading from '../../components/Loading';
+import Card from '../../components/Card';
 
 class Home extends Component {
   componentDidMount() {
@@ -14,16 +15,17 @@ class Home extends Component {
     const { products, loading } = this.props;
     return (
       <div>
-        {
-          products.map(({
-            id, title, prize, description,
-          }) => (
-            <div key={id}>
-              <h2>{title}</h2>
-              <p>{description}</p>
-              <p>{prize}</p>
-            </div>
-          ))
+        {loading ? <Loading /> : (
+          <div>
+            {
+              products.map(({
+                id, ...rest
+              }) => (
+                <Card key={id} product={{ ...rest, id }} />
+              ))
+            }
+          </div>
+        )
         }
       </div>
     );
@@ -43,7 +45,8 @@ Home.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     prize: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired
+    description: PropTypes.string.isRequired,
+    img: PropTypes.string.isRequired,
   }).isRequired),
   loading: PropTypes.bool.isRequired,
 };

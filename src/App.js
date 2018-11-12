@@ -5,6 +5,7 @@ import { theme } from './theme';
 import Router from './Router';
 import GlobalStyles from './globalStyle';
 import store from './state';
+import Loading from './components/Loading';
 
 const Context = React.createContext();
 
@@ -14,7 +15,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <div>
           <GlobalStyles />
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loading />}>
             <Router />
           </Suspense>
         </div>
